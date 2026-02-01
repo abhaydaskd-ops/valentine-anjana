@@ -1,229 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Abhay 💖 Anjana</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>For You ❤️</title>
 
-<!-- PWA Manifest -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#ff4d6d">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#ff4d6d">
 
-<style>
-*{box-sizing:border-box}
-body{margin:0;height:100vh;overflow:hidden;display:flex;justify-content:center;align-items:center;font-family:Poppins,system-ui,-apple-system;background:linear-gradient(135deg,#ffe6f0,#fff1c1);transition:background .6s}
-body.dark{background:linear-gradient(135deg,#1e1e2f,#2b2b45)}
-.container{width:92%;max-width:420px;background:#fff;border-radius:26px;padding:28px;text-align:center;position:relative;z-index:2;box-shadow:0 25px 45px rgba(0,0,0,.18);transition:background .6s,color .6s}
-body.dark .container{background:#2b2b45;color:#fff}
-img{width:160px;margin-bottom:14px;transition:opacity .4s}
-h1{margin:6px 0;color:#ff4d6d}
-body.dark h1{color:#ff9db0}
-p{color:#555;min-height:48px}
-body.dark p{color:#ddd}
-button{padding:12px 28px;border:none;border-radius:30px;font-size:17px;cursor:pointer;margin-top:10px;transition:transform .2s}
-button:hover{transform:scale(1.05)}
-.option{width:100%;background:#ffe6eb}
-#yes{background:#ff4d6d;color:#fff;animation:pulse 1.5s infinite}
-#no{background:#ddd;position:absolute}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,77,109,.6)}70%{box-shadow:0 0 0 15px rgba(255,77,109,0)}100%{box-shadow:0 0 0 0 rgba(255,77,109,0)}}
-.hidden{display:none}
-.btns{margin-top:18px;position:relative;height:120px}
-.toggle{position:absolute;top:12px;right:16px;cursor:pointer}
-.name-glow{font-size:22px;font-weight:700;letter-spacing:.5px;background:linear-gradient(90deg,#ff4d6d,#ff9db0,#ff4d6d);-webkit-background-clip:text;background-clip:text;color:transparent;animation:glow 3s linear infinite}
-@keyframes glow{to{background-position:200%}}
-.heart{position:absolute;bottom:-20px;opacity:.6;animation:float 6s linear infinite}
-@keyframes float{to{transform:translateY(-120vh);opacity:0}}
-.badge{font-size:13px;opacity:.8}
-.countdown{font-weight:600;margin-top:6px}
-.share{margin-top:14px;background:#25D366;color:#fff;width:100%}
-.easter{font-size:14px;opacity:.85}
-</style>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: radial-gradient(circle at top, #ffccd5, #590d22);
+      font-family: "Segoe UI", sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    .card {
+      text-align: center;
+      padding: 30px;
+      background: rgba(0,0,0,0.35);
+      border-radius: 20px;
+      box-shadow: 0 0 40px rgba(255,0,100,0.4);
+      max-width: 90%;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+
+    p {
+      margin-bottom: 25px;
+      font-size: 18px;
+    }
+
+    button {
+      padding: 12px 28px;
+      font-size: 18px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    #yes {
+      background: #ff4d6d;
+      color: white;
+      margin-right: 10px;
+    }
+
+    #no {
+      background: white;
+      color: #590d22;
+      position: absolute;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="toggle" onclick="toggleDark()">🌙</div>
-
-<audio id="music" loop>
-  <source src="https://cdn.pixabay.com/audio/2023/03/02/audio_1c94c7c0f1.mp3" type="audio/mpeg">
+<audio id="bgMusic" loop>
+  <source src="music.mp3" type="audio/mpeg">
 </audio>
 
-<div class="container">
-  <div class="name-glow" id="titleTap">Abhay × Anjana</div>
-  <div class="badge">Final Boss Valentine 💘 (tap our name 👀)</div>
+<div class="card" id="card">
+  <h1 id="name">Anjana ❤️</h1>
+  <p>Will you be my Valentine?</p>
 
-  <img id="gif" src="https://media.tenor.com/6xJ9s6ZC0uQAAAAC/mochi.gif" />
+  <button id="yes">Yes 💖</button>
+  <button id="no">No 🙃</button>
+</div>
 
-  <h1 id="title"></h1>
-  <p id="text"></p>
-
-  <div id="quiz">
-    <button class="option" onclick="answer(true)">He is soft at heart 🥹</button>
-    <button class="option" onclick="answer(false)">He has no emotions 😐</button>
-  </div>
-
-  <div id="yesNo" class="hidden">
-    <button id="yes" onclick="answer(true)">Yes</button><br/>
-    <button id="no" class="noBtn">No</button>
-  </div>
-
-  <div id="proposal" class="hidden">
-    <p>Okay… final question 💖</p>
-    <h2>Will you be my Valentine?</h2>
-    <div class="btns">
-      <button id="yesFinal" onclick="yesClicked()">Yes 💕</button>
-      <button id="noFinal">No 🙄</button>
-    </div>
-  </div>
-
-  <div id="final" class="hidden">
-    <img src="https://media.tenor.com/j1g5cZzQ8SAAAAAC/mochi-love.gif">
-    <h1>She said YES 😭❤️</h1>
-    <p>Best Valentine ever 💘</p>
-    <div class="countdown" id="countdown"></div>
-    <button class="share" onclick="share()">Share on WhatsApp 💬</button>
-    <div class="easter hidden" id="easter">🐣 Easter egg unlocked: Love +1 forever</div>
-  </div>
+<div class="card hidden" id="success">
+  <h1>💘 Yayyyyy 💘</h1>
+  <p>You just made me the happiest person 🥹❤️</p>
 </div>
 
 <script>
-// Hearts background
-for(let i=0;i<24;i++){
-  const h=document.createElement('div');
-  h.className='heart';h.textContent='💗';
-  h.style.left=Math.random()*100+'vw';
-  h.style.animationDuration=4+Math.random()*4+'s';
-  document.body.appendChild(h);
+/* 🔒 LOCK UNTIL FEB 14 */
+const today = new Date();
+const unlockDate = new Date(today.getFullYear(), 1, 14); // Feb = 1
+
+if (today < unlockDate) {
+  document.body.innerHTML = `
+    <div class="card">
+      <h1>⏳ Not yet…</h1>
+      <p>Come back on <b>Feb 14 ❤️</b></p>
+    </div>`;
 }
 
-// Questions + typewriter
-let step=0,taps=0;
-const title=document.getElementById('title');
-const text=document.getElementById('text');
-const quiz=document.getElementById('quiz');
-const yesNo=document.getElementById('yesNo');
-const proposal=document.getElementById('proposal');
-const gif=document.getElementById('gif');
-const music=document.getElementById('music');
+/* 🎵 MUSIC (USER INTERACTION REQUIRED) */
+const music = document.getElementById("bgMusic");
+let musicStarted = false;
 
-const questions=[
- {t:"Hi Anjana 💕", q:"Before anything… let me ask you something sweet 😌", g:"https://media.tenor.com/6xJ9s6ZC0uQAAAAC/mochi.gif", type:"choice"},
- {t:"Question 2 💖", q:"Does Abhay overthink because he cares a little too much?", g:"https://media.tenor.com/3Z7Yj2d7B0QAAAAC/mochi-walk.gif", type:"yesno"},
- {t:"Question 3 🥹", q:"When he smiles, does it feel like home?", g:"https://media.tenor.com/0KJZVjU0qKQAAAAC/mochi-love.gif", type:"yesno"},
- {t:"Question 4 😌", q:"Would you trust him with your heart?", g:"https://media.tenor.com/5f7qK0H2z4IAAAAC/mochi-cat-walk.gif", type:"yesno"},
- {t:"One last thing 💘", q:"If he promises to choose you every day… should he stop overthinking now?", g:"https://media.tenor.com/Qw8n3YHq4iUAAAAC/mochi-please.gif", type:"yesno"}
-];
-
-function type(el,txt){
-  el.innerHTML='';let i=0;
-  const t=setInterval(()=>{el.innerHTML+=txt[i++];if(i>=txt.length)clearInterval(t)},40);
-}
-
-function loadQ(){
-  const q=questions[step];
-  gif.style.opacity=0;
-  setTimeout(()=>{gif.src=q.g;gif.style.opacity=1},300);
-  type(title,q.t);type(text,q.q);
-  quiz.classList.toggle('hidden',q.type!=='choice');
-  yesNo.classList.toggle('hidden',q.type!=='yesno');
-}
-
-function answer(ok){
-  if(!ok){alert("Wrong answer 😏 try again");return}
-  music.play();
-  step++; step<questions.length?loadQ():(quiz.classList.add('hidden'),yesNo.classList.add('hidden'),proposal.classList.remove('hidden'));
-}
-
-loadQ();
-
-// Dark mode
-function toggleDark(){document.body.classList.toggle('dark')}
-
-// Final proposal yes/no
-function yesClicked(){
-  proposal.classList.add('hidden');
-  document.getElementById('final').classList.remove('hidden');
-  confetti(); startCountdown();
-}
-
-// Final No button runs away
-const noBtn=document.getElementById('noFinal');
-function moveNo(){
-  const x=Math.random()*260-130;
-  const y=Math.random()*160-80;
-  noBtn.style.transform=`translate(${x}px,${y}px)`;
-}
-noBtn.addEventListener('mouseover',moveNo);
-noBtn.addEventListener('touchstart',moveNo);
-
-// Confetti
-function confetti(){
-  for(let i=0;i<80;i++){
-    const c=document.createElement('div');
-    c.textContent='🎉';c.style.position='fixed';
-    c.style.left=Math.random()*100+'vw';c.style.top='-20px';
-    c.style.fontSize='20px';c.style.animation='fall 3s linear';
-    document.body.appendChild(c);setTimeout(()=>c.remove(),3000);
+document.body.addEventListener("click", () => {
+  if (!musicStarted) {
+    music.play().catch(()=>{});
+    musicStarted = true;
   }
-}
-const s=document.createElement('style');
-s.textContent='@keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}';
-document.head.appendChild(s);
+}, { once: true });
 
-// Countdown to next Valentine's
-function startCountdown(){
-  const el=document.getElementById('countdown');
-  const target=new Date(new Date().getFullYear(),1,14);
-  setInterval(()=>{
-    const d=target-new Date();
-    if(d<=0){el.textContent="Happy Valentine’s Day ❤️";return}
-    const days=Math.floor(d/864e5);
-    const hrs=Math.floor(d%864e5/36e5);
-    el.textContent=`Valentine’s Day in ${days}d ${hrs}h 💞`;
-  },1000);
+/* 😈 NO BUTTON RUNAWAY (MOBILE + DESKTOP) */
+const noBtn = document.getElementById("no");
+
+function runAway() {
+  const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+  const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+  noBtn.style.left = x + "px";
+  noBtn.style.top = y + "px";
 }
 
-// Share WhatsApp
-function share(){
-  const msg=encodeURIComponent("She said YES! 💖 Check this out:");
-  const url=encodeURIComponent(location.href);
-  window.open(`https://wa.me/?text=${msg}%20${url}`,'_blank');
-}
+["mouseover","mousedown","touchstart","click"].forEach(evt=>{
+  noBtn.addEventListener(evt, e=>{
+    e.preventDefault();
+    runAway();
+  });
+});
 
-// Easter egg: tap name 5x
-document.getElementById('titleTap').onclick=()=>{
-  if(++taps===5) document.getElementById('easter').classList.remove('hidden');
+/* 💖 YES BUTTON */
+document.getElementById("yes").onclick = () => {
+  document.getElementById("card").classList.add("hidden");
+  document.getElementById("success").classList.remove("hidden");
 };
 
-// Unlock music on first tap (browser autoplay fix)
-let musicUnlocked=false;
-document.addEventListener("click",()=>{
-  if(!musicUnlocked){music.volume=0.6; music.play().catch(()=>{}); musicUnlocked=true;}
-});
-document.addEventListener("touchstart",()=>{
-  if(!musicUnlocked){music.volume=0.6; music.play().catch(()=>{}); musicUnlocked=true;}
+/* 🐣 EASTER EGG (5 TAPS, NO COPY ISSUE) */
+let taps = 0;
+const nameEl = document.getElementById("name");
+
+nameEl.addEventListener("click", e => {
+  e.preventDefault();
+  taps++;
+  if (taps === 5) {
+    alert("🐣 Easter Egg unlocked!\nYou found my hidden heart ❤️");
+    taps = 0;
+  }
 });
 
-// Generate floating hearts
-for(let i=0;i<24;i++){
-  const h=document.createElement('div');
-  h.className='heart'; h.textContent='💗';
-  h.style.left=Math.random()*100+'vw';
-  h.style.animationDuration=4+Math.random()*4+'s';
-  document.body.appendChild(h);
-}
-
-// Service Worker registration for PWA
-if("serviceWorker" in navigator){
-  window.addEventListener("load",()=>{
-    navigator.serviceWorker.register("sw.js")
-    .then(()=>console.log("Service Worker registered ✅"))
-    .catch(err=>console.log("Service Worker failed ❌",err));
-  });
-}
+/* 🚫 Disable text selection & copy */
+document.addEventListener("copy", e => e.preventDefault());
+document.addEventListener("contextmenu", e => e.preventDefault());
 </script>
+
 </body>
-      </html>
-      
+  </html>
+  
