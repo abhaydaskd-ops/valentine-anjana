@@ -1,112 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Abhay ❤️ Anjana</title>
 
 <style>
 *{box-sizing:border-box}
 body{
-  margin:0;height:100vh;
-  display:flex;justify-content:center;align-items:center;
-  font-family:Poppins,system-ui;
+  margin:0;height:100vh;overflow:hidden;
+  font-family:Poppins,system-ui,-apple-system;
   background:linear-gradient(135deg,#ffe6f0,#fff1c1);
-  overflow:hidden;
+}
+
+/* 🔒 LOCK OVERLAY */
+#lockScreen{
+  position:fixed; inset:0; z-index:9999;
+  display:flex; flex-direction:column;
+  justify-content:center; align-items:center;
+  text-align:center;
+  background:linear-gradient(135deg,#ffdde7,#fff1c1);
+}
+#lockScreen h1{color:#ff4d6d;font-size:28px;margin:0}
+#lockScreen p{color:#555;margin:10px 0}
+#countdown{font-weight:700;color:#ff4d6d}
+
+/* 💖 MAIN APP */
+.app{
+  display:none; /* hidden until Feb 14 */
+  height:100vh;
+  display:flex; justify-content:center; align-items:center;
 }
 .container{
-  width:90%;max-width:420px;
-  background:#fff;border-radius:26px;
-  padding:28px;text-align:center;
-  box-shadow:0 25px 45px rgba(0,0,0,.2);
+  width:92%; max-width:420px;
+  background:#fff; border-radius:26px;
+  padding:28px; text-align:center;
+  box-shadow:0 25px 45px rgba(0,0,0,.18);
 }
-h1{color:#ff4d6d}
+h2{color:#ff4d6d}
 p{color:#555}
 
-.hidden{display:none}
-
 button{
-  padding:12px 28px;
-  border:none;border-radius:30px;
-  font-size:16px;
-  cursor:pointer;
+  padding:12px 28px; border:none; border-radius:30px;
+  font-size:16px; cursor:pointer;
 }
-
 #yes{background:#ff4d6d;color:#fff}
-#no{
-  background:#ddd;
-  position:absolute;
-}
+#no{background:#ddd; position:absolute}
 
-.btns{position:relative;height:120px;margin-top:20px}
-
-.countdown{font-weight:600;margin-top:10px;color:#ff4d6d}
-
-.lock{
-  text-align:center;
-}
-.lock h1{font-size:26px}
-.lock p{font-size:15px}
+.btns{position:relative;height:120px;margin-top:18px}
 </style>
 </head>
 
 <body>
 
-<!-- 🎵 MUSIC -->
+<!-- 🎵 MUSIC (upload love.mp3 in repo root) -->
 <audio id="music" loop>
   <source src="love.mp3" type="audio/mpeg">
 </audio>
 
 <!-- 🔒 LOCK SCREEN -->
-<div class="container lock" id="lockScreen">
+<div id="lockScreen">
   <h1>🔒 Locked</h1>
   <p>This page unlocks on Valentine’s Day 💘</p>
-  <div class="countdown" id="timer"></div>
+  <div id="countdown"></div>
 </div>
 
 <!-- 💖 MAIN CONTENT -->
-<div class="container hidden" id="app">
-  <h1>Hi Anjana 💕</h1>
-  <p>Let me ask you something…</p>
-
-  <div class="btns">
-    <button id="yes" onclick="next()">Yes 😌</button>
-    <button id="no">No 🙄</button>
-  </div>
-
-  <div id="final" class="hidden">
-    <h1>Will you be my Valentine? 💖</h1>
+<div class="app" id="app">
+  <div class="container">
+    <h2>Hi Anjana 💕</h2>
+    <p>Will you be my Valentine?</p>
     <div class="btns">
-      <button id="yes" onclick="accepted()">YES ❤️</button>
-      <button id="no">NO 😐</button>
+      <button id="yes" onclick="accept()">Yes ❤️</button>
+      <button id="no">No 🙄</button>
     </div>
   </div>
 </div>
 
 <script>
-/* 🔒 VALENTINE LOCK */
-const unlockDate = new Date(new Date().getFullYear(),1,14); // Feb 14
-const lockScreen = document.getElementById("lockScreen");
+/* 🔒 DATE LOCK + TIMER */
+const unlockDate = new Date(new Date().getFullYear(), 1, 14); // Feb 14
+const lock = document.getElementById("lockScreen");
+const cd = document.getElementById("countdown");
 const app = document.getElementById("app");
-const timer = document.getElementById("timer");
 
-function updateTimer(){
+function tick(){
   const now = new Date();
   const diff = unlockDate - now;
+
   if(diff <= 0){
-    lockScreen.classList.add("hidden");
-    app.classList.remove("hidden");
+    lock.remove();
+    document.body.style.overflow="auto";
+    app.style.display="flex";
     return;
   }
   const d = Math.floor(diff/864e5);
   const h = Math.floor(diff%864e5/36e5);
   const m = Math.floor(diff%36e5/6e4);
-  timer.textContent = `Unlocks in ${d}d ${h}h ${m}m 💕`;
+  cd.textContent = `Unlocks in ${d}d ${h}h ${m}m 💖`;
 }
-setInterval(updateTimer,1000);
-updateTimer();
+setInterval(tick,1000);
+tick();
 
-/* 🎵 MUSIC – user interaction required */
+/* 🎵 MUSIC — starts on first interaction (required by browsers) */
 const music = document.getElementById("music");
 let started=false;
 function startMusic(){
@@ -120,34 +116,24 @@ function startMusic(){
   document.addEventListener(e,startMusic,{once:true});
 });
 
-/* 😈 NO BUTTON RUNAWAY (EVERYWHERE) */
-function attachRunaway(btn){
-  function run(){
-    const x=Math.random()*(window.innerWidth-btn.offsetWidth);
-    const y=Math.random()*(window.innerHeight-btn.offsetHeight);
-    btn.style.left=x+"px";
-    btn.style.top=y+"px";
-  }
-  ["mouseover","mousedown","touchstart","click"].forEach(e=>{
-    btn.addEventListener(e,ev=>{
-      ev.preventDefault();
-      run();
-    });
+/* 😈 NO BUTTON RUNAWAY (ALL EVENTS) */
+const noBtn = document.getElementById("no");
+function runAway(){
+  const x = Math.random()*(window.innerWidth-noBtn.offsetWidth);
+  const y = Math.random()*(window.innerHeight-noBtn.offsetHeight);
+  noBtn.style.left=x+"px";
+  noBtn.style.top=y+"px";
+}
+["mouseover","mousedown","touchstart","click"].forEach(e=>{
+  noBtn.addEventListener(e,ev=>{
+    ev.preventDefault(); runAway();
   });
-}
+});
 
-document.querySelectorAll("#no").forEach(attachRunaway);
-
-/* FLOW */
-function next(){
-  document.querySelector(".btns").classList.add("hidden");
-  document.getElementById("final").classList.remove("hidden");
-  document.querySelectorAll("#no").forEach(attachRunaway);
-}
-
-function accepted(){
-  document.body.innerHTML=
-  "<h1 style='color:#ff4d6d;text-align:center'>She said YES 😭❤️<br>Happy Valentine’s Day 💘</h1>";
+/* 💘 YES */
+function accept(){
+  document.body.innerHTML =
+    "<h1 style='text-align:center;color:#ff4d6d;margin-top:40vh'>She said YES 😭❤️<br/>Happy Valentine’s Day 💘</h1>";
 }
 </script>
 
