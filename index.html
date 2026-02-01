@@ -150,8 +150,25 @@ nameEl.addEventListener("click", e => {
 /* 🚫 Disable text selection & copy */
 document.addEventListener("copy", e => e.preventDefault());
 document.addEventListener("contextmenu", e => e.preventDefault());
-</script>
+</script>const music = document.getElementById("bgMusic");
+let musicStarted = false;
 
-</body>
-  </html>
+function startMusic() {
+  if (!musicStarted) {
+    music.volume = 0.5;
+    music.play().catch(()=>{});
+    musicStarted = true;
+  }
+}
+
+/* Start music on any interaction */
+["click","touchstart"].forEach(evt => {
+  document.addEventListener(evt, startMusic, { once:true });
+});
+  
+
+</body><audio id="bgMusic" loop>
+  <source src="love.mp3" type="audio/mpeg">
+</audio>
+
   
