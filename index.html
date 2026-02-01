@@ -1,174 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>For You ❤️</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abhay ❤️ Anjana</title>
 
-  <!-- PWA -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#ff4d6d">
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;height:100vh;
+  display:flex;justify-content:center;align-items:center;
+  font-family:Poppins,system-ui;
+  background:linear-gradient(135deg,#ffe6f0,#fff1c1);
+  overflow:hidden;
+}
+.container{
+  width:90%;max-width:420px;
+  background:#fff;border-radius:26px;
+  padding:28px;text-align:center;
+  box-shadow:0 25px 45px rgba(0,0,0,.2);
+}
+h1{color:#ff4d6d}
+p{color:#555}
 
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      background: radial-gradient(circle at top, #ffccd5, #590d22);
-      font-family: "Segoe UI", sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: white;
-      overflow: hidden;
-      user-select: none;
-    }
+.hidden{display:none}
 
-    .card {
-      text-align: center;
-      padding: 30px;
-      background: rgba(0,0,0,0.35);
-      border-radius: 20px;
-      box-shadow: 0 0 40px rgba(255,0,100,0.4);
-      max-width: 90%;
-    }
+button{
+  padding:12px 28px;
+  border:none;border-radius:30px;
+  font-size:16px;
+  cursor:pointer;
+}
 
-    h1 {
-      margin-bottom: 10px;
-      cursor: pointer;
-    }
+#yes{background:#ff4d6d;color:#fff}
+#no{
+  background:#ddd;
+  position:absolute;
+}
 
-    p {
-      margin-bottom: 25px;
-      font-size: 18px;
-    }
+.btns{position:relative;height:120px;margin-top:20px}
 
-    button {
-      padding: 12px 28px;
-      font-size: 18px;
-      border: none;
-      border-radius: 30px;
-      cursor: pointer;
-      position: relative;
-    }
+.countdown{font-weight:600;margin-top:10px;color:#ff4d6d}
 
-    #yes {
-      background: #ff4d6d;
-      color: white;
-      margin-right: 10px;
-    }
-
-    #no {
-      background: white;
-      color: #590d22;
-      position: absolute;
-    }
-
-    .hidden {
-      display: none;
-    }
-  </style>
+.lock{
+  text-align:center;
+}
+.lock h1{font-size:26px}
+.lock p{font-size:15px}
+</style>
 </head>
+
 <body>
 
-<audio id="bgMusic" loop>
-  <source src="music.mp3" type="audio/mpeg">
-</audio>
-
-<div class="card" id="card">
-  <h1 id="name">Anjana ❤️</h1>
-  <p>Will you be my Valentine?</p>
-
-  <button id="yes">Yes 💖</button>
-  <button id="no">No 🙃</button>
-</div>
-
-<div class="card hidden" id="success">
-  <h1>💘 Yayyyyy 💘</h1>
-  <p>You just made me the happiest person 🥹❤️</p>
-</div>
-
-<script>
-/* 🔒 LOCK UNTIL FEB 14 */
-const today = new Date();
-const unlockDate = new Date(today.getFullYear(), 1, 14); // Feb = 1
-
-if (today < unlockDate) {
-  document.body.innerHTML = `
-    <div class="card">
-      <h1>⏳ Not yet…</h1>
-      <p>Come back on <b>Feb 14 ❤️</b></p>
-    </div>`;
-}
-
-/* 🎵 MUSIC (USER INTERACTION REQUIRED) */
-const music = document.getElementById("bgMusic");
-let musicStarted = false;
-
-document.body.addEventListener("click", () => {
-  if (!musicStarted) {
-    music.play().catch(()=>{});
-    musicStarted = true;
-  }
-}, { once: true });
-
-/* 😈 NO BUTTON RUNAWAY (MOBILE + DESKTOP) */
-const noBtn = document.getElementById("no");
-
-function runAway() {
-  const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
-  const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
-  noBtn.style.left = x + "px";
-  noBtn.style.top = y + "px";
-}
-
-["mouseover","mousedown","touchstart","click"].forEach(evt=>{
-  noBtn.addEventListener(evt, e=>{
-    e.preventDefault();
-    runAway();
-  });
-});
-
-/* 💖 YES BUTTON */
-document.getElementById("yes").onclick = () => {
-  document.getElementById("card").classList.add("hidden");
-  document.getElementById("success").classList.remove("hidden");
-};
-
-/* 🐣 EASTER EGG (5 TAPS, NO COPY ISSUE) */
-let taps = 0;
-const nameEl = document.getElementById("name");
-
-nameEl.addEventListener("click", e => {
-  e.preventDefault();
-  taps++;
-  if (taps === 5) {
-    alert("🐣 Easter Egg unlocked!\nYou found my hidden heart ❤️");
-    taps = 0;
-  }
-});
-
-/* 🚫 Disable text selection & copy */
-document.addEventListener("copy", e => e.preventDefault());
-document.addEventListener("contextmenu", e => e.preventDefault());
-</script>const music = document.getElementById("bgMusic");
-let musicStarted = false;
-
-function startMusic() {
-  if (!musicStarted) {
-    music.volume = 0.5;
-    music.play().catch(()=>{});
-    musicStarted = true;
-  }
-}
-
-/* Start music on any interaction */
-["click","touchstart"].forEach(evt => {
-  document.addEventListener(evt, startMusic, { once:true });
-});
-  
-
-</body><audio id="bgMusic" loop>
+<!-- 🎵 MUSIC -->
+<audio id="music" loop>
   <source src="love.mp3" type="audio/mpeg">
 </audio>
 
-  
+<!-- 🔒 LOCK SCREEN -->
+<div class="container lock" id="lockScreen">
+  <h1>🔒 Locked</h1>
+  <p>This page unlocks on Valentine’s Day 💘</p>
+  <div class="countdown" id="timer"></div>
+</div>
+
+<!-- 💖 MAIN CONTENT -->
+<div class="container hidden" id="app">
+  <h1>Hi Anjana 💕</h1>
+  <p>Let me ask you something…</p>
+
+  <div class="btns">
+    <button id="yes" onclick="next()">Yes 😌</button>
+    <button id="no">No 🙄</button>
+  </div>
+
+  <div id="final" class="hidden">
+    <h1>Will you be my Valentine? 💖</h1>
+    <div class="btns">
+      <button id="yes" onclick="accepted()">YES ❤️</button>
+      <button id="no">NO 😐</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* 🔒 VALENTINE LOCK */
+const unlockDate = new Date(new Date().getFullYear(),1,14); // Feb 14
+const lockScreen = document.getElementById("lockScreen");
+const app = document.getElementById("app");
+const timer = document.getElementById("timer");
+
+function updateTimer(){
+  const now = new Date();
+  const diff = unlockDate - now;
+  if(diff <= 0){
+    lockScreen.classList.add("hidden");
+    app.classList.remove("hidden");
+    return;
+  }
+  const d = Math.floor(diff/864e5);
+  const h = Math.floor(diff%864e5/36e5);
+  const m = Math.floor(diff%36e5/6e4);
+  timer.textContent = `Unlocks in ${d}d ${h}h ${m}m 💕`;
+}
+setInterval(updateTimer,1000);
+updateTimer();
+
+/* 🎵 MUSIC – user interaction required */
+const music = document.getElementById("music");
+let started=false;
+function startMusic(){
+  if(!started){
+    music.volume=0.5;
+    music.play().catch(()=>{});
+    started=true;
+  }
+}
+["click","touchstart"].forEach(e=>{
+  document.addEventListener(e,startMusic,{once:true});
+});
+
+/* 😈 NO BUTTON RUNAWAY (EVERYWHERE) */
+function attachRunaway(btn){
+  function run(){
+    const x=Math.random()*(window.innerWidth-btn.offsetWidth);
+    const y=Math.random()*(window.innerHeight-btn.offsetHeight);
+    btn.style.left=x+"px";
+    btn.style.top=y+"px";
+  }
+  ["mouseover","mousedown","touchstart","click"].forEach(e=>{
+    btn.addEventListener(e,ev=>{
+      ev.preventDefault();
+      run();
+    });
+  });
+}
+
+document.querySelectorAll("#no").forEach(attachRunaway);
+
+/* FLOW */
+function next(){
+  document.querySelector(".btns").classList.add("hidden");
+  document.getElementById("final").classList.remove("hidden");
+  document.querySelectorAll("#no").forEach(attachRunaway);
+}
+
+function accepted(){
+  document.body.innerHTML=
+  "<h1 style='color:#ff4d6d;text-align:center'>She said YES 😭❤️<br>Happy Valentine’s Day 💘</h1>";
+}
+</script>
+
+</body>
+</html>
